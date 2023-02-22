@@ -13,7 +13,7 @@ public class StringSchema {
 
         if (value == null) {
 
-            return !isRequired && validations.isEmpty();
+            return !isRequired;
         }
         
         if (!(value instanceof String)) {
