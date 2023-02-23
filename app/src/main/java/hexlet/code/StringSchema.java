@@ -4,59 +4,30 @@ import  java.util.function.Predicate;
 import  java.util.List;
 import  java.util.LinkedList;
 
-public class StringSchema {
-    private List<Predicate<String>> validations = new LinkedList<>();
-    private boolean isRequired = false;
+public class StringSchema extends BaseSchema {
 
-
-    public boolean isValid(Object value) {
-
-        if (value == null) {
-
-            return !isRequired;
-        }
-        
-        if (!(value instanceof String)) {
-
-            return false;
-        }
-
-        String stringValue = (String)value;
-
-        if (stringValue.isEmpty() && isRequired) {
-
-            return false;
-        }
-
-        
-       // Predicate<String> isNotNull = str -> str != null;
-        for (Predicate<String> validation: validations) {
-
-            if (!(validation.test(stringValue))) {
-                
-                return false;
-
-            }
-        }
-        return true;
-
+    public StringSchema() {
+        Predicate<Object> validation = value -> value instanceof String;
+        validations.add(validation);
 
     }
 
     public StringSchema required() {
         isRequired = true;
+        Predicate<Object> validation = value -> !((String)value).isEmpty();
+        validations.add(validation);
         return this;
     }
 
     public StringSchema minLength(int length) {
-        Predicate<String> validation = str -> str.length() >= length;
+        Predicate<Object> validation = value -> ((String)value).length() >= length;
         validations.add(validation);
         return this;
     }
 
     public StringSchema contains(String substring) {
         StringBuilder sb = new StringBuilder(substring);
-        Predicate<String> validation = str -> str.contains(sb);
+        Predicate<Object> validation = value -> ((String)value).contains(sb);
         validations.add(validation);
         return this;
     }
