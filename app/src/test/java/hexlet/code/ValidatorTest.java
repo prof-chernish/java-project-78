@@ -1,9 +1,8 @@
 package hexlet.code;
 
 import org.junit.jupiter.api.Test;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import  java.util.Map;
+import  java.util.HashMap;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
@@ -37,23 +36,40 @@ public class ValidatorTest {
         Validator validator = new Validator();
         NumberSchema schema = validator.number();
         assertTrue(schema.isValid(null)); 
-assertTrue(schema.positive().isValid(null)); 
+        assertTrue(schema.positive().isValid(null)); 
+        schema.required();
+        assertFalse(schema.isValid(null)); 
+        assertTrue(schema.isValid(10));
+        assertFalse(schema.isValid("5")); 
+        assertFalse(schema.isValid(-10)); 
+        assertFalse(schema.isValid(0)); 
+        schema.range(5, 10);
+        assertTrue(schema.isValid(5)); 
+        assertTrue(schema.isValid(10)); 
+        assertFalse(schema.isValid(4)); 
+        assertFalse(schema.isValid(11)); 
 
- schema.required();
+    }
+    @Test 
+    void test3() {
+        Validator validator = new Validator();
+        MapSchema schema = validator.map();
 
-assertFalse(schema.isValid(null)); 
-assertTrue(schema.isValid(10));
-assertFalse(schema.isValid("5")); 
-assertFalse(schema.isValid(-10)); 
+        assertTrue(schema.isValid(null));
 
-assertFalse(schema.isValid(0)); 
+        schema.required();
 
-schema.range(5, 10);
+        assertFalse(schema.isValid(null));
+        assertTrue(schema.isValid(new HashMap()));
+        Map<String, String> data = new HashMap<>();
+        data.put("key1", "value1");
+        assertTrue(schema.isValid(data)); // true
 
-assertTrue(schema.isValid(5)); 
-assertTrue(schema.isValid(10)); 
-assertFalse(schema.isValid(4)); 
-assertFalse(schema.isValid(11)); 
+        schema.sizeof(2);
+
+        assertFalse(schema.isValid(data));  // false
+        data.put("key2", "value2");
+        assertTrue(schema.isValid(data)); // true
 
     }
 
