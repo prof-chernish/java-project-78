@@ -10,7 +10,7 @@ public abstract class BaseSchema {
     protected List<Predicate<Object>> validations = new LinkedList<>();
     protected boolean isRequired = false;
 
-    public boolean isValid(Object value) {
+    public final boolean isValid(Object value) {
 
         if (value == null) {
             return !isRequired;

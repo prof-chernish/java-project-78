@@ -4,7 +4,7 @@ import  java.util.function.Predicate;
 import  java.util.Map;
 
 
-public class MapSchema extends BaseSchema {
+public final class MapSchema extends BaseSchema {
 
     public MapSchema() {
 
