@@ -31,8 +31,7 @@ public final class StringSchema extends BaseSchema {
 
     public StringSchema contains(String substring) {
 
-        StringBuilder sb = new StringBuilder(substring);
-        Predicate<Object> validation = value -> ((String) value).contains(sb);
+        Predicate<Object> validation = value -> ((String) value).contains(substring);
         validations.add(validation);
         return this;
     }
